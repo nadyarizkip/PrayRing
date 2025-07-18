@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrayRing - Pengingat & Jurnal Shalat</title>
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c5364"/>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕌</text></svg>">
+</head>
+<body>
+
+    <div class="header">
+        <h1><i class='bx bxs-moon' ></i> PrayRing</h1>
+        <p id="locationDisplay">Pengingat & Jurnal Ibadah</p>
+    </div>
+
+    <div class="container">
+        <div class="current-time">
+            <div class="time-display" id="currentTime">00:00:00</div>
+            <div class="date-display" id="currentDate">Memuat...</div>
+            <div class="hijri-date-display" id="hijriDate"></div>
+        </div>
+
+        <div class="next-prayer" id="nextPrayer">
+            <h3>Shalat Selanjutnya: <span id="nextPrayerName">Memuat...</span></h3>
+            <p>Dalam: <span id="nextPrayerCountdown">Memuat...</span></p>
+        </div>
+
+        <div class="prayer-times" id="prayerTimes">
+            </div>
+
+        <div class="controls">
+            <button class="btn btn-secondary" id="refreshBtn" title="Segarkan Jadwal"><i class='bx bx-refresh'></i> Segarkan</button>
+            <button class="btn btn-secondary" id="settingsBtn" title="Pengaturan"><i class='bx bx-cog'></i> Pengaturan</button>
+        </div>
+
+        <div class="gamification-stats" id="gamificationStats">
+            <p>Predikat Ibadah Anda: <span id="predicateDisplay">Hamba Pembelajar</span></p>
+        </div>
+
+        <div class="status" id="status">Memuat jadwal shalat...</div>
+    </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeSettingsModal">&times;</span>
+            <h2><i class='bx bx-cog'></i> Pengaturan</h2>
+            <div class="setting-item">
+                <label for="citySelect"><i class='bx bxs-city'></i> Pilih Kota:</label>
+                <select id="citySelect"></select>
+            </div>
+             <div class="setting-item">
+                <label><i class='bx bx-current-location'></i> Lokasi Otomatis:</label>
+                <button id="detectLocationBtn" class="btn btn-small">Deteksi Lokasi Saya</button>
+            </div>
+            <div class="setting-item">
+                <label for="methodSelect"><i class='bx bx-calculator'></i> Metode Perhitungan:</label>
+                <select id="methodSelect"></select>
+            </div>
+            <div class="setting-item">
+                <label><i class='bx bxs-bell-ring'></i> Notifikasi Adzan:</label>
+                <button class="btn btn-primary" id="notifBtn">Aktifkan Notifikasi</button>
+            </div>
+            <div class="setting-item">
+                <label><i class='bx bxs-palette'></i> Tema Gelap:</label>
+                <label class="switch"><input type="checkbox" id="darkModeToggle"><span class="slider round"></span></label>
+            </div>
+            <div class="setting-item-center">
+                <button id="saveSettingsBtn" class="btn btn-primary">Simpan & Muat Ulang</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkinModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="closeCheckinModal">&times;</span>
+            <h2 id="checkinPrayerName">Catat Shalat...</h2>
+            <div class="setting-item">
+                <label>Shalat tepat waktu?</label>
+                <label class="switch"><input type="checkbox" id="tepatWaktuToggle"><span class="slider round"></span></label>
+            </div>
+            <div class="setting-item">
+                <label>Shalat berjamaah?</label>
+                <label class="switch"><input type="checkbox" id="berjamaahToggle"><span class="slider round"></span></label>
+            </div>
+            <div class="setting-item">
+                <label for="prayerNote"><i class='bx bxs-edit-alt'></i> Tambah Catatan:</label>
+            </div>
+            <textarea id="prayerNote" rows="3" placeholder="Tulis refleksi atau catatan singkat di sini..."></textarea>
+            <button id="saveCheckinBtn" class="btn btn-primary">Simpan Catatan</button>
+        </div>
+    </div>
+
+    <div id="loadingOverlay" class="loading-overlay"><div class="spinner"></div></div>
+    <div class="notification" id="notification"></div>
+
+    <script src="script.js"></script>
+    <script>
+  // Cek apakah browser mendukung Service Worker
+  if ('serviceWorker' in navigator) {
+    // Daftarkan service worker saat halaman selesai dimuat
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+        .then(registration => {
+          console.log('Service Worker berhasil didaftarkan: ', registration);
+        })
+        .catch(error => {
+          console.log('Pendaftaran Service Worker gagal: ', error);
+        });
+    });
+  }
+</script>
+</body>
+</html>

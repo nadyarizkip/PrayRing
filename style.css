@@ -1,0 +1,277 @@
+/* Import Font & Icons */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* --- Variabel Warna --- */
+:root {
+    --bg-gradient-light: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+    --bg-gradient-dark: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    --container-bg-light: rgba(255, 255, 255, 0.25);
+    --container-bg-dark: rgba(0, 0, 0, 0.25);
+    --card-bg-light: rgba(255, 255, 255, 0.2);
+    --card-bg-dark: rgba(0, 0, 0, 0.2);
+    --text-light: #1e293b;
+    --text-dark: #e2e8f0;
+    --text-secondary-light: #475569;
+    --text-secondary-dark: #94a3b8;
+    --accent-color: #38bdf8;
+    --active-color: #34d399;
+    --shadow-light: rgba(100, 116, 139, 0.2);
+    --shadow-dark: rgba(0, 0, 0, 0.3);
+    
+    /* Default ke Light Mode */
+    --bg-gradient: var(--bg-gradient-light);
+    --container-bg: var(--container-bg-light);
+    --card-bg: var(--card-bg-light);
+    --text-color: var(--text-light);
+    --text-color-secondary: var(--text-secondary-light);
+    --shadow-color: var(--shadow-light);
+    
+    /* PERBAIKAN: Variabel baru untuk background statistik/predikat */
+    --stats-bg: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode {
+    --bg-gradient: var(--bg-gradient-dark);
+    --container-bg: var(--container-bg-dark);
+    --card-bg: var(--card-bg-dark);
+    --text-color: var(--text-dark);
+    --text-color-secondary: var(--text-secondary-dark);
+    --shadow-color: var(--shadow-dark);
+    
+    /* PERBAIKAN: Variabel baru untuk background statistik/predikat */
+    --stats-bg: rgba(0, 0, 0, 0.2);
+}
+
+/* --- Gaya Dasar --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', 'Arial', sans-serif;
+    background-image: var(--bg-gradient);
+    background-size: cover;
+    background-attachment: fixed;
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem;
+    transition: background 0.4s ease-in-out, color 0.4s ease-in-out;
+}
+
+/* --- Header & Container --- */
+.header { text-align: center; margin-bottom: 2rem; animation: fadeInDown 1s ease-out; }
+.header h1 { font-size: 2.5em; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.header p { font-size: 1.1em; color: var(--text-color-secondary); font-weight: 500; }
+
+.container {
+    background: var(--container-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-radius: 24px;
+    padding: 2rem;
+    max-width: 700px;
+    width: 100%;
+    box-shadow: 0 8px 32px 0 var(--shadow-color);
+    animation: fadeInUp 1s ease-out 0.3s both;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Tampilan Waktu Utama --- */
+.current-time { text-align: center; margin-bottom: 1.5rem; }
+.time-display { font-size: 4em; font-weight: 700; line-height: 1.1; }
+.date-display { font-size: 1.2em; color: var(--text-color-secondary); }
+.hijri-date-display { font-size: 1em; opacity: 0.8; margin-top: 5px; }
+
+/* --- Waktu Shalat Berikutnya --- */
+.next-prayer {
+    text-align: center; margin-bottom: 2rem; padding: 1rem;
+    background: rgba(0, 0, 0, 0.1); border-radius: 16px;
+    border-left: 5px solid var(--accent-color);
+}
+.next-prayer h3 { font-weight: 600; font-size: 1.2em; }
+.next-prayer p { font-size: 1.1em; font-weight: 500; }
+
+
+/* --- Grid Jadwal Shalat --- */
+.prayer-times {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1rem; margin-bottom: 2rem;
+}
+.prayer-card {
+    background: var(--card-bg); border-radius: 16px; padding: 1.2rem;
+    text-align: center; transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative; overflow: hidden;
+}
+.prayer-card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px var(--shadow-color); }
+.prayer-card.active { background: rgba(52, 211, 153, 0.2); border-color: var(--active-color); }
+.prayer-card.active::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--active-color); animation: pulse-border 2s infinite; }
+
+.prayer-icon { font-size: 2.2em; color: var(--accent-color); margin-bottom: 0.5rem; }
+.prayer-name { font-size: 1.1em; font-weight: 600; margin-bottom: 0.25rem; }
+.prayer-time { font-size: 1.75em; font-weight: 700; color: var(--text-color); }
+
+.checkin-container { margin-top: 1rem; }
+
+/* --- Tombol & Kontrol --- */
+.controls { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; }
+.btn {
+    padding: 10px 22px; border: none; border-radius: 12px;
+    font-size: 1em; font-weight: 600; cursor: pointer;
+    transition: all 0.3s ease; letter-spacing: 0.5px;
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    color: white;
+}
+.btn-primary { background: #0ea5e9; }
+.btn-secondary { background: #64748b; }
+.btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 7px 20px var(--shadow-color); }
+.btn:active { transform: translateY(-1px); }
+.btn-small { padding: 6px 14px; font-size: 0.9em; border-radius: 8px;}
+
+/* --- Status & Notifikasi --- */
+.status { text-align: center; margin-top: 1.5rem; padding: 10px; background: rgba(0, 0, 0, 0.1); border-radius: 12px; font-size: 0.9em; }
+.notification { position: fixed; top: 20px; right: -100%; background: #22c55e; color: white; padding: 1rem 1.5rem; border-radius: 12px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); transition: right 0.5s ease-in-out; z-index: 2000; display: flex; align-items: center; gap: 1rem;}
+.notification.show { right: 20px; }
+.notification i { font-size: 1.5em; }
+
+/* --- Modal --- */
+.modal {
+    display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+    width: 100%; height: 100%; overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px);
+    animation: fadeIn 0.4s;
+}
+.modal-content {
+    background: var(--bg-gradient); color: var(--text-color);
+    margin: 10% auto; padding: 2rem; border-radius: 20px;
+    max-width: 500px; width: 90%; position: relative;
+    box-shadow: 0 8px 32px var(--shadow-color);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.modal-content h2 { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+.close-btn { color: var(--text-color); float: right; font-size: 28px; font-weight: bold; cursor: pointer; transition: transform 0.2s ease; }
+.close-btn:hover { transform: scale(1.1); }
+
+.setting-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem; flex-wrap: wrap; gap: 0.5rem; }
+.setting-item label { font-weight: 500; display: flex; align-items: center; gap: 0.5rem; }
+.setting-item select { flex-grow: 1; }
+#citySelect, #methodSelect {
+    width: 100%; padding: 10px; border-radius: 8px; border: 1px solid rgba(128, 128, 128, 0.5);
+    font-family: 'Poppins', sans-serif; background: rgba(255,255,255,0.1); color: var(--text-color);
+}
+#saveSettingsBtn {
+    margin-top: 1rem;
+    padding: 12px 24px;
+    font-size: 1.1em;
+}
+
+.setting-item-center {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+/* --- Toggle Switch --- */
+.switch { position: relative; display: inline-block; width: 50px; height: 28px; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(128, 128, 128, 0.5); transition: .4s; }
+.slider:before { position: absolute; content: ""; height: 22px; width: 22px; left: 3px; bottom: 3px; background-color: white; transition: .4s; }
+input:checked + .slider { background-color: var(--accent-color); }
+input:checked + .slider:before { transform: translateX(22px); }
+.slider.round { border-radius: 34px; }
+.slider.round:before { border-radius: 50%; }
+
+/* --- Loading Spinner --- */
+.loading-overlay { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); justify-content: center; align-items: center; }
+.loading-overlay.show { display: flex; }
+.spinner { border: 5px solid rgba(255,255,255,0.3); border-top: 5px solid var(--accent-color); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
+
+/* --- Gaya untuk Catatan & Predikat --- */
+#prayerNote {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(128, 128, 128, 0.5);
+    font-family: 'Poppins', sans-serif;
+    background: rgba(255,255,255,0.1);
+    color: var(--text-color);
+    margin-top: -1rem; /* Mengurangi jarak dari label */
+    margin-bottom: 1.5rem;
+    resize: vertical;
+    transition: all 0.3s ease;
+}
+
+#prayerNote::placeholder {
+    color: var(--text-color-secondary);
+    opacity: 0.8;
+}
+
+#prayerNote:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+/* PERBAIKAN: Mengubah gaya agar lebih mudah terbaca */
+.gamification-stats {
+    text-align: center;
+    margin-top: 1.5rem;
+    padding: 12px;
+    background: var(--stats-bg); /* Menggunakan variabel baru */
+    border-radius: 12px;
+    font-size: 1em;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Menambah border tipis */
+    box-shadow: 0 2px 4px var(--shadow-color); /* Menambah bayangan lembut */
+}
+
+.gamification-stats #predicateDisplay {
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+/* --- Jurnal --- */
+.btn-checkin {
+    background: var(--accent-color); color: white; border: none; padding: 8px 16px;
+    border-radius: 8px; cursor: pointer; font-size: 0.85em;
+    font-weight: 600; transition: all 0.3s ease;
+}
+.btn-checkin:hover { background: #0ea5e9; transform: translateY(-2px); }
+.checked-in {
+    color: var(--active-color); font-weight: 600; font-size: 0.9em;
+    display: flex; align-items: center; justify-content: center; gap: 0.3rem;
+}
+
+
+/* --- Animasi --- */
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulse-border {
+    0% { transform: scaleX(0); }
+    50% { transform: scaleX(1); }
+    100% { transform: scaleX(0); }
+}
+
+/* --- Media Queries (Responsif) --- */
+@media (max-width: 768px) {
+    .prayer-times { grid-template-columns: repeat(2, 1fr); }
+    .header h1 { font-size: 2.2em; }
+    .time-display { font-size: 3em; }
+    .container { padding: 1.5rem; }
+    .modal-content { margin: 20% auto; padding: 1.5rem; }
+}
+@media (max-width: 480px) {
+    .prayer-times { grid-template-columns: 1fr; }
+    body { padding: 1rem 0.5rem; }
+    .container { padding: 1rem; border-radius: 16px; }
+}
+
+/* Perbaikan untuk Tombol Deteksi Lokasi */
+#detectLocationBtn {
+    background: #64748b; /* Warna yang sama dengan tombol 'secondary' lainnya */
+    color: white;
+}

@@ -1,0 +1,23 @@
+{
+  "name": "PrayRing - Pengingat & Jurnal Shalat",
+  "short_name": "PrayRing",
+  "description": "Aplikasi pengingat waktu shalat dan jurnal ibadah harian.",
+  "start_url": ".",
+  "display": "PrayRing",
+  "background_color": "#0f2027",
+  "theme_color": "#2c5364",
+  "icons": [
+    {
+      "src": "prayring.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "prayring.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
