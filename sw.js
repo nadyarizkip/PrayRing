@@ -1,5 +1,5 @@
 // Nama cache. Ganti nama ini jika Anda membuat perubahan besar pada file-file aplikasi.
-const CACHE_NAME = 'prayring-cache-v1';
+const CACHE_NAME = 'prayring-cache-v2';
 
 // Daftar file inti yang perlu disimpan untuk mode offline.
 const URLS_TO_CACHE = [
