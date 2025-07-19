@@ -265,9 +265,27 @@ input:checked + .slider:before { transform: translateX(22px); }
     .modal-content { margin: 20% auto; padding: 1.5rem; }
 }
 @media (max-width: 480px) {
-    .prayer-times { grid-template-columns: 1fr; }
-    body { padding: 1rem 0.5rem; }
-    .container { padding: 1rem; border-radius: 16px; }
+    .prayer-times {
+        /* Mengubah grid menjadi 2 kolom di layar kecil */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.75rem; /* Mengurangi jarak antar kartu */
+    }
+
+    .container {
+        padding: 1.5rem 1rem; /* Menyesuaikan padding container */
+    }
+
+    .time-display {
+        font-size: 3.5em; /* Sedikit mengecilkan jam utama */
+    }
+
+    .prayer-name {
+        font-size: 1em; /* Mengecilkan nama shalat di kartu */
+    }
+
+    .prayer-time {
+        font-size: 1.5em; /* Mengecilkan waktu shalat di kartu */
+    }
 }
 
 /* Perbaikan untuk Tombol Deteksi Lokasi */
