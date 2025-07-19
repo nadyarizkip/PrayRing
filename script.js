@@ -233,21 +233,23 @@ function updateHijriDate(hijri) {
         const adjustedDate = new Date(todayGregorian);
         adjustedDate.setDate(todayGregorian.getDate() + hijriAdjustment);
 
-        // Menggunakan format 'ar-SA' yang lebih konsisten untuk kalender Islam
-        const hijriDateString = new Intl.DateTimeFormat('ar-SA', {
+        // --- Logika Cerdas untuk Menangani Berbagai Browser ---
+
+        // 1. Coba format Arab dulu (ideal untuk desktop)
+        let hijriDateString = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
             day: 'numeric',
             month: 'long',
             year: 'numeric'
         }).format(adjustedDate);
 
         // Membersihkan teks tambahan yang mungkin muncul
-        let finalDate = hijriDateString.replace('هـ', 'H').replace(/[.,]/g, '');
+        let finalDate = hijriDateString.replace('هـ', 'H').replace('AH', 'H').replace(/[.,]/g, '');
         
         dom.hijriDate.textContent = finalDate;
 
     } catch (error) {
-        console.error("Gagal mengonversi tanggal Hijriah, menggunakan data dari API:", error);
-        // Fallback jika konversi gagal
+        console.error("Gagal total mengonversi tanggal Hijriah, menggunakan data dari API:", error);
+        // Fallback terakhir jika semua cara gagal
         dom.hijriDate.textContent = `${hijri.day} ${hijri.month.en} ${hijri.year} H`;
     }
 }
