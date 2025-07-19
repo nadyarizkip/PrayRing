@@ -226,29 +226,28 @@ function updateNextPrayerCountdown() {
 }
 
 function updateHijriDate(hijri) {
-    // --- PUSAT KONTROL PENYESUAIAN TANGGAL HIJRIAH ---
-    // Ubah angka 0 jika perlu ada penyesuaian hari (misal: -1 atau 1).
-    // Untuk masalah TAHUN, biarkan saja 0.
-    const hijriAdjustment = 0; 
+    const hijriAdjustment = 0; // Sesuaikan jika perlu (+1 atau -1)
 
     try {
         const todayGregorian = new Date();
         const adjustedDate = new Date(todayGregorian);
         adjustedDate.setDate(todayGregorian.getDate() + hijriAdjustment);
 
-        // Kode ini akan mengonversi tanggal Masehi ke Hijriah secara otomatis
-        // dan akan menghasilkan tahun 1447 H.
-        const hijriDateString = new Intl.DateTimeFormat('en-SA-u-ca-islamic', {
+        // Menggunakan format 'ar-SA' yang lebih konsisten untuk kalender Islam
+        const hijriDateString = new Intl.DateTimeFormat('ar-SA', {
             day: 'numeric',
             month: 'long',
             year: 'numeric'
         }).format(adjustedDate);
+
+        // Membersihkan teks tambahan yang mungkin muncul
+        let finalDate = hijriDateString.replace('هـ', 'H').replace(/[.,]/g, '');
         
-        // Menampilkan tanggal Hijriah yang sudah benar ke layar
-        dom.hijriDate.textContent = hijriDateString.replace('AH', 'H');
+        dom.hijriDate.textContent = finalDate;
+
     } catch (error) {
         console.error("Gagal mengonversi tanggal Hijriah, menggunakan data dari API:", error);
-        // Baris ini hanya akan dijalankan jika konversi otomatis gagal
+        // Fallback jika konversi gagal
         dom.hijriDate.textContent = `${hijri.day} ${hijri.month.en} ${hijri.year} H`;
     }
 }
